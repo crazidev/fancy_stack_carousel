@@ -4,6 +4,10 @@ Special thanks to [Kostia Sokolovskyi](https://x.com/k_sokolovskyi) for helping 
 ## Video Demo
 
 
+https://github.com/user-attachments/assets/7a23c49e-b256-41a2-a9a5-157af1867903
+
+
+
 ## Installation
 To run this app locally, follow these steps:
 
