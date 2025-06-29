@@ -1,8 +1,11 @@
-name: d_card_swipe
-description: "A custom card swipe widget implementation"
+name: stacked_carousel
+description: A carousel slider widget, support infinite scroll and custom child widget.
+homepage: https://github.com/crazidev/fancy_stack_carousel
+repository: https://github.com/crazidev/fancy_stack_carousel
+version: 0.0.1
 
 environment:
-  sdk: ^3.5.3
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
   flutter:
@@ -11,7 +14,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
 
 flutter:
   uses-material-design: true

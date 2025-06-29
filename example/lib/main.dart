@@ -89,17 +89,19 @@ class _ExampleState extends State<Example> {
             ],
             carouselController: carouselController,
             options: FancyStackCarouselOptions(
-              size: Size(250, 150),
+              size: Size(250, 300),
               autoPlay: autoPlay,
-              autoPlayInterval: Duration(seconds: 2),
-              autoPlayAnimationDuration: Duration(milliseconds: 1000),
-              onPageChanged: (index, reason) =>
-                  print("Index change: ${index}, Reason: ${reason}"),
+              autoplayDirection: AutoplayDirection.left,
+              autoPlayInterval: Duration(seconds: 3),
+              duration: Duration(milliseconds: 350),
+              onPageChanged: (index, reason, direction) => print(
+                "Index change: ${index}, Reason: ${reason}, Direction: ${direction}",
+              ),
             ),
           ),
           SizedBox(height: 80),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
             child: Row(
               spacing: 20,
               children: [
@@ -128,7 +130,7 @@ class _ExampleState extends State<Example> {
                 autoPlay = !autoPlay;
               });
             },
-            child: Text("Toggle AutoPlay ${autoPlay}"),
+            child: Text("Turn ${autoPlay ? "Off" : "On"} AutoPlay"),
           ),
         ],
       ),

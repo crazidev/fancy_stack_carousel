@@ -1,8 +1,22 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-/// Custom Implicitly Animated Widget for the card transform
+/// A custom implicitly animated widget that applies a series of transformations
+/// (translation, scale, and rotation) to its child.
+///
+/// This widget is designed to animate changes in its transform properties
+/// smoothly over a specified duration and curve.
 class AnimatedCardTransform extends ImplicitlyAnimatedWidget {
+  /// Creates an [AnimatedCardTransform] widget.
+  ///
+  /// The [duration] and [curve] arguments control the animation.
+  /// [firstOffset] applies a horizontal translation.
+  /// [secondOffset] applies another horizontal translation.
+  /// [scaleX] and [scaleY] control the scaling along the X and Y axes respectively.
+  /// [zRotationAngle] applies a rotation around the Z-axis.
+  /// [zRotationAlignment] determines the origin of the Z-axis rotation.
+  /// [yRotationAngle] applies a rotation around the Y-axis, creating a 3D perspective effect.
+  /// The [child] is the widget to which these transformations are applied.
   const AnimatedCardTransform({
     super.key,
     required super.duration,
@@ -17,20 +31,29 @@ class AnimatedCardTransform extends ImplicitlyAnimatedWidget {
     required this.child,
   });
 
+  /// The first horizontal offset to apply to the child.
   final double firstOffset;
 
+  /// The second horizontal offset to apply to the child.
   final double secondOffset;
 
+  /// The scale factor along the X-axis.
   final double scaleX;
 
+  /// The scale factor along the Y-axis.
   final double scaleY;
 
+  /// The rotation angle around the Z-axis in radians.
   final double zRotationAngle;
 
+  /// The alignment point for the Z-axis rotation.
   final Alignment zRotationAlignment;
 
+  /// The rotation angle around the Y-axis in radians.
+  /// Used for 3D perspective effects.
   final double yRotationAngle;
 
+  /// The widget to which the transformations are applied.
   final Widget child;
 
   @override
@@ -56,86 +79,71 @@ class AnimatedCardTransform extends ImplicitlyAnimatedWidget {
 
 class _AnimatedCardTransformState
     extends ImplicitlyAnimatedWidgetState<AnimatedCardTransform> {
-  Tween<double>? _firstOffset;
+  Tween<double>? _firstOffsetTween;
   late Animation<double> _firstOffsetAnimation;
 
-  Tween<double>? _secondOffset;
+  Tween<double>? _secondOffsetTween;
   late Animation<double> _secondOffsetAnimation;
 
-  Tween<double>? _scaleX;
+  Tween<double>? _scaleXTween;
   late Animation<double> _scaleXAnimation;
 
-  Tween<double>? _scaleY;
+  Tween<double>? _scaleYTween;
   late Animation<double> _scaleYAnimation;
 
-  Tween<double>? _zRotationAngle;
+  Tween<double>? _zRotationAngleTween;
   late Animation<double> _zRotationAngleAnimation;
 
-  Tween<double>? _yRotationAngle;
+  Tween<double>? _yRotationAngleTween;
   late Animation<double> _yRotationAngleAnimation;
 
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
-    _firstOffset =
-        visitor(
-              _firstOffset,
-              widget.firstOffset,
-              (dynamic value) => Tween<double>(begin: value as double),
-            )
-            as Tween<double>?;
+    _firstOffsetTween = visitor(
+      _firstOffsetTween,
+      widget.firstOffset,
+      (dynamic value) => Tween<double>(begin: value as double),
+    ) as Tween<double>?;
 
-    _secondOffset =
-        visitor(
-              _secondOffset,
-              widget.secondOffset,
-              (dynamic value) => Tween<double>(begin: value as double),
-            )
-            as Tween<double>?;
+    _secondOffsetTween = visitor(
+      _secondOffsetTween,
+      widget.secondOffset,
+      (dynamic value) => Tween<double>(begin: value as double),
+    ) as Tween<double>?;
 
-    _scaleX =
-        visitor(
-              _scaleX,
-              widget.scaleX,
-              (dynamic value) => Tween<double>(begin: value as double),
-            )
-            as Tween<double>?;
+    _scaleXTween = visitor(
+      _scaleXTween,
+      widget.scaleX,
+      (dynamic value) => Tween<double>(begin: value as double),
+    ) as Tween<double>?;
 
-    _scaleY =
-        visitor(
-              _scaleY,
-              widget.scaleY,
-              (dynamic value) => Tween<double>(begin: value as double),
-            )
-            as Tween<double>?;
+    _scaleYTween = visitor(
+      _scaleYTween,
+      widget.scaleY,
+      (dynamic value) => Tween<double>(begin: value as double),
+    ) as Tween<double>?;
 
-    _zRotationAngle =
-        visitor(
-              _zRotationAngle,
-              widget.zRotationAngle,
-              (dynamic value) => Tween<double>(begin: value as double),
-            )
-            as Tween<double>?;
+    _zRotationAngleTween = visitor(
+      _zRotationAngleTween,
+      widget.zRotationAngle,
+      (dynamic value) => Tween<double>(begin: value as double),
+    ) as Tween<double>?;
 
-    _yRotationAngle =
-        visitor(
-              _yRotationAngle,
-              widget.yRotationAngle,
-              (dynamic value) => Tween<double>(begin: value as double),
-            )
-            as Tween<double>?;
+    _yRotationAngleTween = visitor(
+      _yRotationAngleTween,
+      widget.yRotationAngle,
+      (dynamic value) => Tween<double>(begin: value as double),
+    ) as Tween<double>?;
   }
 
   @override
   void didUpdateTweens() {
-    /// Why not use _secondOffset?.evaluate(animation) in line(should be better for performance)
-    /// Less memory overhead and driving the value based on the animation provider by the State itself
-    /// Well, [ Offset<T>?.evaluate(this.animation)] returns a nullable double and Matrix4 want a non-nullable value
-    _firstOffsetAnimation = animation.drive(_firstOffset!);
-    _secondOffsetAnimation = animation.drive(_secondOffset!);
-    _scaleXAnimation = animation.drive(_scaleX!);
-    _scaleYAnimation = animation.drive(_scaleY!);
-    _zRotationAngleAnimation = animation.drive(_zRotationAngle!);
-    _yRotationAngleAnimation = animation.drive(_yRotationAngle!);
+    _firstOffsetAnimation = animation.drive(_firstOffsetTween!);
+    _secondOffsetAnimation = animation.drive(_secondOffsetTween!);
+    _scaleXAnimation = animation.drive(_scaleXTween!);
+    _scaleYAnimation = animation.drive(_scaleYTween!);
+    _zRotationAngleAnimation = animation.drive(_zRotationAngleTween!);
+    _yRotationAngleAnimation = animation.drive(_yRotationAngleTween!);
   }
 
   @override
@@ -157,7 +165,7 @@ class _AnimatedCardTransformState
               alignment: widget.zRotationAlignment,
               child: Transform(
                 transform: Matrix4.identity()
-                  ..setEntry(3, 2, 0.001)
+                  ..setEntry(3, 2, 0.001) // Adds perspective
                   ..rotateY(_yRotationAngleAnimation.value),
                 child: Transform(
                   transform: Matrix4.translationValues(
