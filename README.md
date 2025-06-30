@@ -4,7 +4,7 @@ A highly customizable and animated stack carousel widget for Flutter, allowing f
 
 # Showcases
 
-![(preview/Showcase.gif)](preview/Showcase.gif)
+![](https://github.com/crazidev/fancy_stack_carousel/raw/c12033e3988001127c5dd6f0722dc2ac29cef33d/preview/Showcase.GIF)
 
 ## ✨ Features
 

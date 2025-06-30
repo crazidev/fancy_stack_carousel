@@ -2,7 +2,7 @@ name: fancy_stack_carousel
 description: A highly customizable and animated stack carousel widget for Flutter, allowing for dynamic card transformations, autoplay, and programmatic control.
 homepage: https://github.com/crazidev/fancy_stack_carousel
 repository: https://github.com/crazidev/fancy_stack_carousel
-version: 0.0.1
+version: 0.0.3
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -17,6 +17,10 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   integration_test:
     sdk: flutter
+
+screenshots:
+  - description: 'A Simple screenshot'
+    path: preview/Showcase.gif
 
 flutter:
   uses-material-design: true
