@@ -65,6 +65,11 @@ class FancyStackCarouselOptions {
   ///
   // final bool pauseAutoPlayOnManualNavigate;
 
+  /// Print debug logs
+  ///
+  /// Default to [false]
+  final bool debug;
+
   FancyStackCarouselOptions({
     required this.size,
     this.autoPlay = false,
@@ -74,10 +79,43 @@ class FancyStackCarouselOptions {
     this.autoPlayCurve = Curves.ease,
     this.animateCurve = Curves.ease,
     // this.aspectRatio = 16 / 9,
+    this.debug = false,
     this.onPageChanged,
     this.pauseAutoPlayOnTouch = true,
     this.pauseOnMouseHover = true,
   });
 
   ///Generate new
+
+  @override
+  bool operator ==(covariant FancyStackCarouselOptions other) {
+    if (identical(this, other)) return true;
+
+    return other.size == size &&
+        other.autoPlay == autoPlay &&
+        other.autoPlayInterval == autoPlayInterval &&
+        other.duration == duration &&
+        other.autoPlayCurve == autoPlayCurve &&
+        other.animateCurve == animateCurve &&
+        other.autoplayDirection == autoplayDirection &&
+        other.onPageChanged == onPageChanged &&
+        other.pauseAutoPlayOnTouch == pauseAutoPlayOnTouch &&
+        other.pauseOnMouseHover == pauseOnMouseHover &&
+        other.debug == debug;
+  }
+
+  @override
+  int get hashCode {
+    return size.hashCode ^
+        autoPlay.hashCode ^
+        autoPlayInterval.hashCode ^
+        duration.hashCode ^
+        autoPlayCurve.hashCode ^
+        animateCurve.hashCode ^
+        autoplayDirection.hashCode ^
+        onPageChanged.hashCode ^
+        pauseAutoPlayOnTouch.hashCode ^
+        pauseOnMouseHover.hashCode ^
+        debug.hashCode;
+  }
 }

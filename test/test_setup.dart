@@ -1,30 +1,5 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:fancy_stack_carousel/stacked_carousel.dart';
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      useInheritedMediaQuery: true,
-      home: DevicePreview(
-        enabled: true,
-        isToolbarVisible: true,
-        tools: DevicePreview.defaultTools,
-        builder: (context) {
-          return ExampleApp();
-        },
-      ),
-    );
-  }
-}
 
 class ExampleApp extends StatefulWidget {
   const ExampleApp({super.key, this.carouselController});
@@ -36,8 +11,8 @@ class ExampleApp extends StatefulWidget {
 }
 
 class _ExampleAppState extends State<ExampleApp> {
-  FancyStackCarouselController carouselController =
-      FancyStackCarouselController();
+  FancyStackCarouselController get carouselController =>
+      widget.carouselController ?? FancyStackCarouselController();
 
   bool autoPlay = false;
   int currentIndex = 0;
@@ -49,6 +24,23 @@ class _ExampleAppState extends State<ExampleApp> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           FancyStackCarousel(
+            carouselController: carouselController,
+            options: FancyStackCarouselOptions(
+              size: Size(250, 150),
+              autoPlay: autoPlay,
+              autoplayDirection: AutoplayDirection.left,
+              autoPlayInterval: Duration(seconds: 2),
+              duration: Duration(milliseconds: 350),
+              onPageChanged: (index, reason, direction) {
+                setState(() {
+                  currentIndex = index;
+                });
+
+                print(
+                  "Index change: ${index}, Reason: ${reason}, Direction: ${direction}",
+                );
+              },
+            ),
             items: [
               FancyStackItem(
                 id: 1,
@@ -101,26 +93,8 @@ class _ExampleAppState extends State<ExampleApp> {
                 ),
               ),
             ],
-            carouselController: carouselController,
-            options: FancyStackCarouselOptions(
-              size: Size(250, 300),
-              autoPlay: autoPlay,
-              autoplayDirection: AutoplayDirection.bothSide,
-              autoPlayInterval: Duration(seconds: 3),
-              duration: Duration(milliseconds: 350),
-              onPageChanged: (index, reason, direction) {
-                setState(() {
-                  currentIndex = index;
-                });
-
-                print(
-                  "Index change: ${index}, Reason: ${reason}, Direction: ${direction}",
-                );
-              },
-            ),
           ),
           SizedBox(height: 80),
-
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
             child: Row(
@@ -128,6 +102,7 @@ class _ExampleAppState extends State<ExampleApp> {
               children: [
                 Expanded(
                   child: FilledButton(
+                    key: ValueKey('animate_left'),
                     onPressed: () {
                       carouselController.animateToLeft();
                     },
@@ -137,6 +112,7 @@ class _ExampleAppState extends State<ExampleApp> {
                 Text("Index $currentIndex"),
                 Expanded(
                   child: FilledButton(
+                    key: ValueKey('animate_right'),
                     onPressed: () {
                       carouselController.animateToRight();
                     },
@@ -147,6 +123,7 @@ class _ExampleAppState extends State<ExampleApp> {
             ),
           ),
           FilledButton(
+            key: ValueKey('auto_play'),
             onPressed: () {
               setState(() {
                 autoPlay = !autoPlay;

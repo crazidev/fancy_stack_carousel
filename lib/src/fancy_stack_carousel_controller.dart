@@ -1,5 +1,6 @@
+import 'package:fancy_stack_carousel/stacked_carousel.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:stacked_carousel/stacked_carousel.dart';
 import 'dart:async' show Completer;
 import 'fancy_stack_carousel_view.dart'; // Import to resolve FancyStackCarouselState
 
@@ -117,13 +118,5 @@ class FancyStackCarouselController extends ChangeNotifier {
   /// This method is typically called by the carousel itself after a page change.
   void updateIndex(int newIndex) {
     _currentIndex = newIndex;
-  }
-
-  /// Internal: Logs messages for debugging purposes.
-  ///
-  /// This method can be used by the carousel's internal logic to print debug
-  /// information to the console.
-  void log(dynamic log) {
-    print(log); // Uncomment for debugging
   }
 }

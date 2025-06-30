@@ -2,6 +2,7 @@ library stacked_carousel;
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'utils.dart';
@@ -92,21 +93,36 @@ class _CardStackViewState extends State<FancyStackCarousel>
 
   @override
   void didUpdateWidget(covariant FancyStackCarousel oldWidget) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _initializeCarousel(); // This updates all duration state variables
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   final bool needsReinitialization =
+    //       oldWidget.options.autoPlay != widget.options.autoPlay ||
+    //           oldWidget.options.autoPlayInterval !=
+    //               widget.options.autoPlayInterval ||
+    //           oldWidget.options.autoplayDirection !=
+    //               widget.options.autoplayDirection ||
+    //           oldWidget.options.pauseAutoPlayOnTouch !=
+    //               widget.options.pauseAutoPlayOnTouch ||
+    //           oldWidget.options.pauseOnMouseHover !=
+    //               widget.options.pauseOnMouseHover ||
+    //           oldWidget.options.size != widget.options.size;
 
-      // Update the animation controller's duration if options changed
-      // This is important for smooth transitions if duration changes mid-lifecycle
-      if (_animationController.duration != _getEffectiveAnimationDuration()) {
-        _animationController.duration = _getEffectiveAnimationDuration();
-      }
-    });
+    //   if (needsReinitialization) {
+    //     _initializeCarousel();
+    //   }
+
+    //   // Update the animation controller's duration if options changed
+    //   // This is important for smooth transitions if duration changes mid-lifecycle
+    //   if (_animationController.duration != _getEffectiveAnimationDuration()) {
+    //     _animationController.duration = _getEffectiveAnimationDuration();
+    //   }
+    // });
     super.didUpdateWidget(oldWidget);
   }
 
   void _initializeCarousel() {
+    _log(_initializeCarousel);
     _nextAutoplayDirection = widget.options.autoplayDirection;
-    _carouselItems = widget.items;
+    _carouselItems = [...widget.items];
     _carouselState!.options = widget.options;
     _carouselState!.controller = _controller;
     _dragOffset = 0;
@@ -376,6 +392,7 @@ class _CardStackViewState extends State<FancyStackCarousel>
       var currentIndex = widget.items.indexWhere(
         (e) => e.id == _carouselItems.first.id,
       );
+
       if (widget.options.onPageChanged != null) {
         widget.options.onPageChanged!(
           currentIndex,
@@ -415,7 +432,11 @@ class _CardStackViewState extends State<FancyStackCarousel>
     _animationController.forward(from: 0);
   }
 
-  void _log(dynamic log) => _controller.log(log);
+  void _log(dynamic log) {
+    if (kDebugMode && widget.options.debug) {
+      print("FancyStackCarousel: $log");
+    }
+  }
 
   void _handleMouseEnter(FancyStackItem item) {
     if (widget.options.pauseOnMouseHover) {
@@ -506,17 +527,23 @@ class _CardStackViewState extends State<FancyStackCarousel>
                         itemId: item.id,
                       );
 
-                      // Curve based on dragging or animation
-                      final curve = _isDragging
-                          ? Curves.linear
-                          : widget.options.animateCurve;
+                      final cardAnimationDuration = Duration(
+                        milliseconds: () {
+                          if (_isAutoAnimating) {
+                            if (_isAutoRemoving) {
+                              return _generalAnimationDuration.inMilliseconds;
+                            } else {
+                              return 0;
+                            }
+                          }
 
-                      // Determine duration based on how the animation was triggered
-                      final cardAnimationDuration = _isDragging
-                          ? _generalAnimationDuration // User is actively dragging (instant response usually)
-                          : (_currentTrigger == FancyStackCarouselTrigger.timed
-                              ? _autoPlayAnimationDuration // Autoplay driven
-                              : _generalAnimationDuration); // Controller driven or after gesture end
+                          return _generalAnimationDuration.inMilliseconds;
+                        }(),
+                      ); // Smooth transition when released
+
+                      final curve = _isDragging
+                          ? Curves.linear // Linear for immediate response
+                          : Curves.easeInOut; // Smooth easing for natural feel
 
                       return AnimatedCardTransform(
                         duration: cardAnimationDuration,

@@ -2,6 +2,10 @@
 
 A highly customizable and animated stack carousel widget for Flutter, allowing for dynamic card transformations, autoplay, and programmatic control.
 
+# Showcases
+
+![Phone](/preview/Showcase.gif)
+
 ## ✨ Features
 
 - **Animated Stack Effect:** Cards are stacked and transform elegantly as the user navigates.
