@@ -49,7 +49,7 @@ class FancyStackItem {
       {int? id, double? offset, Widget? child, Color? color}) {
     return FancyStackItem._internal(
       id: id ?? this.id,
-      offset: offset ?? this._offset, // Use the internal offset
+      offset: offset ?? _offset, // Use the internal offset
       child: child ?? this.child,
       color: color ?? this.color,
     );

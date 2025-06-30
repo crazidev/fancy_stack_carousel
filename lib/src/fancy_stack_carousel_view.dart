@@ -1,4 +1,4 @@
-library stacked_carousel;
+library;
 
 import 'dart:async';
 
@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'utils.dart';
-import '../stacked_carousel.dart';
+import '../fancy_stack_carousel.dart';
 
 export 'fancy_stack_carousel_model.dart';
 export 'custom_animated_transform.dart';

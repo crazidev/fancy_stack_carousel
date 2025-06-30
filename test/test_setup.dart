@@ -1,4 +1,4 @@
-import 'package:fancy_stack_carousel/stacked_carousel.dart';
+import 'package:fancy_stack_carousel/fancy_stack_carousel.dart';
 import 'package:flutter/material.dart';
 
 class ExampleApp extends StatefulWidget {
@@ -37,7 +37,7 @@ class _ExampleAppState extends State<ExampleApp> {
                 });
 
                 print(
-                  "Index change: ${index}, Reason: ${reason}, Direction: ${direction}",
+                  "Index change: $index, Reason: $reason, Direction: $direction",
                 );
               },
             ),

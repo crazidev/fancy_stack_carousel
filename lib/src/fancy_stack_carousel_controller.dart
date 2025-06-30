@@ -1,8 +1,6 @@
-import 'package:fancy_stack_carousel/stacked_carousel.dart';
+import 'package:fancy_stack_carousel/fancy_stack_carousel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'dart:async' show Completer;
-import 'fancy_stack_carousel_view.dart'; // Import to resolve FancyStackCarouselState
 
 /// Represents the direction of a carousel action.
 enum FancyStackCarouselDirection {
@@ -52,21 +50,6 @@ class FancyStackCarouselController extends ChangeNotifier {
 
   /// The current index of the item displayed in the carousel.
   int get currentIndex => _currentIndex;
-
-  final Completer<void> _readyCompleter = Completer<void>();
-
-  FancyStackCarouselState? _state;
-
-  /// Internal: Provides access to the state of the [FancyStackCarousel].
-  ///
-  /// This is used internally by the carousel to interact with its controller.
-  /// Do not set this property directly.
-  set state(FancyStackCarouselState? state) {
-    _state = state;
-    if (!_readyCompleter.isCompleted) {
-      _readyCompleter.complete();
-    }
-  }
 
   /// Animates the carousel to the next item (moves right).
   ///
